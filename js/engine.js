@@ -25,7 +25,7 @@ var Engine = (function(global) {
         lastTime;
 
     canvas.width = 505;
-    canvas.height = 606;
+    canvas.height = 606; //**** this is higher than necessary. See note in render();
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -40,7 +40,6 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-            //console.log(now-lastTime);
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -80,7 +79,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        // checkCollisions(); //**** This is now handled on each enemy entity during rendering() after rendering.
     }
 
     /* This is called by the update function and loops through all of the
@@ -135,13 +134,13 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83); // incorrect canvas height? 
-                // 1 image 'tile' 101 x 171
-                //overlap rows (y coordinate) 171 - 83 = 88 overlap of tiles
-                //6 x 83 = 498
-                //to show FULL tile on last row (bottom) + 88
-                // 498 + 88 = 586 but canvas is defined larger 606.
-                //is there a gap at the bottom of the canvas? YES.
+                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83); //****incorrect canvas height? 
+                //**** 1 image 'tile' 101 x 171 (all images have identical dimensions)
+                //**** Every row only 83 pixels high & overlap images (y coordinate) 171 - 83 = 88 overlap of tiles
+                //**** 6 x 83 = 498
+                //**** to show FULL tile on last row (bottom) + 88
+                //**** 498 + 88 = 586 but canvas is defined larger 606.
+                //**** is there a gap at the bottom of the canvas? YES.
             }
         }
 
