@@ -60,7 +60,7 @@ Enemy.prototype.random = function() {
 
 Enemy.prototype.checkCollisions = function() {
     //**** Grab enemy x cord and take away player x coord, to find a difference.
-    let diff = this.x - player.x;/
+    let diff = this.x - player.x;
     //**** check the difference is within 'range' & on same Y path axis
     if((diff >= -75 && diff <= 75) && this.y == player.y) {
         document.getElementById('score-box').textContent = --points;
