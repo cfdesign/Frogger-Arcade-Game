@@ -1,3 +1,7 @@
+//**** Dear Reviewer,
+//**** For the benefit of readability please find all my (student) comments marked up especially with:
+//****
+//**** Global score counter so checkCollisions(); and water(); have access
 let points = 0;
 
 // Enemies our player must avoid
@@ -10,51 +14,61 @@ var Enemy = function(x, y, s) {
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
-    this.s = s;
+    //**** Speed variable.
+    this.s = s; 
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
+     //****checks enemy status on canvas
     if (this.x >= 505 || !this.y) {
-        this.random();
+        //**** 'resets' enemies/randmises attack!
+        this.random(); 
     }
-    this.x += this.s *dt;
+    //**** take position, add (speed) multiplied by delta time.
+    this.x += this.s *dt; 
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.checkCollisions();
+    //**** once enemies have been drawn, analyse if player is within range.
+    this.checkCollisions(); 
 };
 
 Enemy.prototype.random = function() {
+    //**** array used to store a crude 'time delay' to set an enemy further back/off canvas on x axis.
     const enemyXCoord = [-101, -126, -151, -176, -202];
     let x;
+    //**** allocate random 'time delay' 
     x = Math.floor(Math.random() * 5);
     this.x = enemyXCoord[x];
+    //**** array used to store three possible paths on the y axis.
     const enemyYCoord = [62, 145, 228];
     let y;
+    //**** allocate random path
     y = Math.floor(Math.random() * 3);
     this.y = enemyYCoord[y];
+    //**** array used to store varying speeds
     const enemySpeed = [300, 400, 500];
     let s;
+    //allocate random speed
     s = Math.floor(Math.random() * 3);
     this.s = enemySpeed[s];
 }
 
 Enemy.prototype.checkCollisions = function() {
-    let diff = this.x - player.x;//(50)
-    //0 - 202 //200 - 300 = -100
-
-    //this.x  //80 >82 = range.  grab player X value (400) grab enemy value (250)
-//400-250 = 150 or 250-400 = -150) 
+    //**** Grab enemy x cord and take away player x coord, to find a difference.
+    let diff = this.x - player.x;/
+    //**** check the difference is within 'range' & on same Y path axis
     if((diff >= -75 && diff <= 75) && this.y == player.y) {
         document.getElementById('score-box').textContent = --points;
         player.x = 202;
         player.y = 394;
         if(points < 0) {
             //gameover!
+            //Will look to adapt game functionality in time.
         }
     }
 
@@ -62,31 +76,38 @@ Enemy.prototype.checkCollisions = function() {
 
 // Now write your own player class
 var Player = function(x, y) {
-    this.sprite = 'images/char-boy.png'; //17, 63, 84, 139, 67, 76
-    this.x = x; //Default position 202 (middle)
-    //Possible x coords: (left) 1x0, 2x101, 3x202, 4x303, 5x404 (right).
-    this.y = y; //Default position 394 (bottom)
-    //Possible y coords: (top) 1x-21, 2x62, 3x145, 4x228, 5x311, 6x394 (bottom).
+    this.sprite = 'images/char-boy.png';
+    //****Possible x coords: (left) 1x0, 2x101, 3x202, 4x303, 5x404 (right).
+    //****Default position 202 (middle)
+    this.x = x; 
+    //****Possible y coords: (top) 1x-21, 2x62, 3x145, 4x228, 5x311, 6x394 (bottom).
+    //****Default position 394 (bottom)
+    this.y = y; 
 };
 
 
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.update = function(move) {
+    //****sent from handleInput
     move;
-    if (this.y == -21) { //player reaches water
-    //record point
-    this.water();
+    //****player reaches water
+    if (this.y == -21) {
+        //record point
+        this.water();
     }
 };
 
 // Draw the player on the screen, required method for game
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y); //, 17, 63, 84, 139, this.x, this.y, 101, 171);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function(keyCode) {
+    //**** use arugment from event listener to define which move to make.
+    //**** Referencing coords note above, define 'out of bounds' to prevent off-canvas player 
     if (keyCode == 'left' && this.x > 100) {
+        //**** make the calcuation/move and pass it to update.
         this.x -= 101;
         player.update(this.x);
     } else if (keyCode == 'right' && this.x < 304) {
@@ -101,11 +122,16 @@ Player.prototype.handleInput = function(keyCode) {
     }    
 };
 
+//**** Simple function to handle points/score
 Player.prototype.water = function () {
-    document.getElementById('score-box').textContent = ++points; //add +1 point
-    this.y+=1; // move player up 1 pixel to avoid duplicate scores being counted.
-    setTimeout(function(){ //pause player to show that the player has reached the water
-        player.x = 202; //return to default postion for another round.
+    //**** add +1 point
+    document.getElementById('score-box').textContent = ++points;
+    //**** move player up 1 pixel to avoid duplicate scores being counted.
+    this.y+=1;
+    //**** pause player to show that the player has reached the water
+    setTimeout(function() {
+        //**** return to default postion for another round.
+        player.x = 202;
         player.y = 394;
     }, 500);
 }
@@ -113,12 +139,13 @@ Player.prototype.water = function () {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 const allEnemies = [];
+//**** Generate three new enemy objects to place in the array
+//**** Could be used to increase game difficulty / more enemies
 for (let i = 0; i < 3; i++) {
     allEnemies[i] = new Enemy();
-    //allEnemies[i].random();
 }
 // Place the player object in a variable called player
-    // Student says: assign player default position
+//**** assign player default position
 const player = new Player(202, 394);
 
 
