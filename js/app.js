@@ -76,12 +76,7 @@ Player.prototype.update = function(move) {
     move;
     if (this.y == -21) { //player reaches water
     //record point
-    document.getElementById('score-box').textContent = ++points; //add +1 point
-    this.y+=1; // move player up 1 pixel to avoid duplicate scores being counted.
-    setTimeout(function(){ // pause to show that the player has reached the water
-        player.x = 202; //return to default postion for another round.
-        player.y = 394;
-    }, 500);
+    this.water();
     }
 };
 
@@ -106,6 +101,14 @@ Player.prototype.handleInput = function(keyCode) {
     }    
 };
 
+Player.prototype.water = function () {
+    document.getElementById('score-box').textContent = ++points; //add +1 point
+    this.y+=1; // move player up 1 pixel to avoid duplicate scores being counted.
+    setTimeout(function(){ //pause player to show that the player has reached the water
+        player.x = 202; //return to default postion for another round.
+        player.y = 394;
+    }, 500);
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
