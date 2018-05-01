@@ -81,7 +81,7 @@ Player.prototype.update = function(move) {
     setTimeout(function(){ // pause to show that the player has reached the water
         player.x = 202; //return to default postion for another round.
         player.y = 394;
-    }, 1000);
+    }, 500);
     }
 };
 
