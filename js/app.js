@@ -56,7 +56,7 @@ Enemy.prototype.random = function() {
     //allocate random speed
     s = Math.floor(Math.random() * 3);
     this.s = enemySpeed[s];
-}
+};
 
 Enemy.prototype.checkCollisions = function() {
     //**** Grab enemy x cord and take away player x coord, to find a difference.
@@ -72,7 +72,7 @@ Enemy.prototype.checkCollisions = function() {
         }
     }
 
-}
+};
 
 // Now write your own player class
 var Player = function(x, y) {
@@ -88,9 +88,7 @@ var Player = function(x, y) {
 
 // This class requires an update(), render() and
 // a handleInput() method.
-Player.prototype.update = function(move) {
-    //****sent from handleInput
-    move;
+Player.prototype.update = function() {    
     //****player reaches water
     if (this.y == -21) {
         //record point
@@ -107,18 +105,14 @@ Player.prototype.handleInput = function(keyCode) {
     //**** use arugment from event listener to define which move to make.
     //**** Referencing coords note above, define 'out of bounds' to prevent off-canvas player 
     if (keyCode == 'left' && this.x > 100) {
-        //**** make the calcuation/move and pass it to update.
+        //**** make the move calcuation.
         this.x -= 101;
-        player.update(this.x);
     } else if (keyCode == 'right' && this.x < 304) {
         this.x += 101;
-        player.update(this.x);
     } else if (keyCode == 'up' && this.y > 61) {
         this.y -= 83;
-        player.update(this.y);
     } else if (keyCode == 'down' && this.y < 312) {
         this.y += 83;
-        player.update(this.y);
     }    
 };
 
@@ -134,7 +128,7 @@ Player.prototype.water = function () {
         player.x = 202;
         player.y = 394;
     }, 500);
-}
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
