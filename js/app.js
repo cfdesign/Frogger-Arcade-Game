@@ -15,7 +15,7 @@ var Enemy = function(x, y, s) {
     this.x = x;
     this.y = y;
     //**** Speed variable.
-    this.s = s; 
+    this.s = s;
 };
 
 // Update the enemy's position, required method for game
@@ -24,24 +24,24 @@ Enemy.prototype.update = function(dt) {
      //****checks enemy status on canvas
     if (this.x >= 505 || !this.y) {
         //**** 'resets' enemies/randmises attack!
-        this.random(); 
+        this.random();
     }
     //**** take position, add (speed) multiplied by delta time.
-    this.x += this.s *dt; 
+    this.x += this.s *dt;
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //**** once enemies have been drawn, analyse if player is within range.
-    this.checkCollisions(); 
+    this.checkCollisions();
 };
 
 Enemy.prototype.random = function() {
     //**** array used to store a crude 'time delay' to set an enemy further back/off canvas on x axis.
     const enemyXCoord = [-101, -126, -151, -176, -202];
     let x;
-    //**** allocate random 'time delay' 
+    //**** allocate random 'time delay'
     x = Math.floor(Math.random() * 5);
     this.x = enemyXCoord[x];
     //**** array used to store three possible paths on the y axis.
@@ -79,16 +79,16 @@ var Player = function(x, y) {
     this.sprite = 'images/char-boy.png';
     //****Possible x coords: (left) 1x0, 2x101, 3x202, 4x303, 5x404 (right).
     //****Default position 202 (middle)
-    this.x = x; 
+    this.x = x;
     //****Possible y coords: (top) 1x-21, 2x62, 3x145, 4x228, 5x311, 6x394 (bottom).
     //****Default position 394 (bottom)
-    this.y = y; 
+    this.y = y;
 };
 
 
 // This class requires an update(), render() and
 // a handleInput() method.
-Player.prototype.update = function() {    
+Player.prototype.update = function() {
     //****player reaches water
     if (this.y == -21) {
         //record point
@@ -103,7 +103,7 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput = function(keyCode) {
     //**** use arugment from event listener to define which move to make.
-    //**** Referencing coords note above, define 'out of bounds' to prevent off-canvas player 
+    //**** Referencing coords note above, define 'out of bounds' to prevent off-canvas player
     if (keyCode == 'left' && this.x > 100) {
         //**** make the move calcuation.
         this.x -= 101;
@@ -113,7 +113,7 @@ Player.prototype.handleInput = function(keyCode) {
         this.y -= 83;
     } else if (keyCode == 'down' && this.y < 312) {
         this.y += 83;
-    }    
+    }
 };
 
 //**** Simple function to handle points/score
