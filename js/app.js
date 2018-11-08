@@ -167,12 +167,13 @@ src.addEventListener('touchstart', function(e) {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     e.preventDefault();
+    console.log(startX+' '+startY)
 }, false);
 
 src.addEventListener('touchend', function(e) {
     let deltaX, deltaY, movement,
-    endX = e.touches[0].clientX,
-    endY = e.touches[0].clientY;
+    endX = e.changedTouches[0].clientX,
+    endY = e.changedTouches[0].clientY;
     e.preventDefault();
     // Compute the change in X and Y coordinates.
     // The first touch point in the changedTouches
