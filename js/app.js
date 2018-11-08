@@ -173,7 +173,7 @@ src.addEventListener('touchend', function(e) {
     let deltaX, deltaY, movement,
     endX = e.touches[0].clientX,
     endY = e.touches[0].clientY;
-
+    e.preventDefault();
     // Compute the change in X and Y coordinates.
     // The first touch point in the changedTouches
     // list is the touch point that was just removed from the surface.
