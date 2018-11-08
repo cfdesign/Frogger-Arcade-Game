@@ -157,3 +157,37 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
     //keyCode apparently deprecated, could be a future issue
 });
+
+const src = document.getElementsByTagName("canvas")[0];
+
+let startX, startY;
+
+src.addEventListener('touchstart', function(e) {
+    // Cache the client X/Y coordinates
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    e.preventDefault();
+}, false);
+
+src.addEventListener('touchend', function(e) {
+    let deltaX, deltaY, movement,
+    endX = e.touches[0].clientX,
+    endY = e.touches[0].clientY;
+
+    // Compute the change in X and Y coordinates.
+    // The first touch point in the changedTouches
+    // list is the touch point that was just removed from the surface.
+    deltaX = math.abs(endY - startY)  //always return a positive number
+    deltaY = math.abs(endX - startX)
+
+    // Process the data ...
+    //greater movement on the Y axis means vertical/up or down.
+    if (deltaY >= deltaX) {
+        movement = endY <= startY ? 'up' : 'down';
+    } else {
+        movement = endX <= startX ? 'left' : 'right';
+    }
+
+    player.handleInput(movement);
+
+}, false);
